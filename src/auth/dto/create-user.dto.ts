@@ -13,17 +13,4 @@ export class CreateUserDto {
         message: 'The password must have a Uppercase, lowercase letter and a number'
     })
     password: string;
-
-    @IsString()
-    country: string;
-
-    @IsString()
-    uni: string;
-
-    @IsString()
-    @IsIn(['man','woman','other'])
-    gender: string;
-
-    @IsInt()
-    age: number;
 }

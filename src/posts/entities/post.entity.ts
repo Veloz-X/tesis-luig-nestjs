@@ -1,6 +1,5 @@
 import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { PostImage } from "./post-image.entity";
-import { Comment } from "src/comments/entities/comment.entity";
 import { User } from "src/auth/entities/user.entity";
 
 @Entity({ name: 'posts' })
@@ -51,21 +50,5 @@ export class Post {
         { cascade: true, eager: true}
     )
     images?: PostImage[];
-
-    @OneToMany(
-        () => Comment,
-        (postComment) => postComment.post,
-        // {eager: true, cascade: true,}
-    )
-    comments: Comment[];
-
-    @ManyToOne(
-        () => User,
-        (user) => user.post,
-        // { cascade: true, eager: true}
-    )
-    user: User;
-    
-
 
 }

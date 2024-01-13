@@ -27,7 +27,6 @@ export class AuthService {
       await this.userRepository.save(user);
       delete user.password;
       return {
-        versionAndroid: '1.0.8',
         ...user,
         token: this.getJwtToken({id:user.id})
       };
@@ -40,7 +39,7 @@ export class AuthService {
     const { password, email } = loginUserDto;
     const user = await this.userRepository.findOne({
       where: { email },
-      select: { email: true, password: true, id:true , isActive:true, roles:true,updateDate:true,createDate:true,country:true,uni:true,gender:true,age:true  }
+      select: { email: true, password: true, id:true , isActive:true, roles:true,updateDate:true,createDate:true }
     });
 
     if (!user) throw new UnauthorizedException('Invalid credentials (email)');
@@ -51,7 +50,6 @@ export class AuthService {
     
     return {
       ...user,
-      versionAndroid: '1.0.8',
       token: this.getJwtToken({id:user.id})
     };
   }
@@ -59,7 +57,6 @@ export class AuthService {
   async checkAuthStatus(user: User) {
     return {
       ...user,
-      versionAndroid: '1.0.8',
       token: this.getJwtToken({id:user.id})
     };
   }

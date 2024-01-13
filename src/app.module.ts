@@ -5,7 +5,7 @@ import { CommonModule } from './common/common.module';
 import { FilesModule } from './files/files.module';
 import { AuthModule } from './auth/auth.module';
 import { PostsModule } from './posts/posts.module';
-import { CommentsModule } from './comments/comments.module';
+import { SensorsModule } from './sensors/sensors.module';
 
 
 @Module({
@@ -30,7 +30,7 @@ import { CommentsModule } from './comments/comments.module';
     FilesModule,
     AuthModule,
     PostsModule,
-    CommentsModule,
+    SensorsModule,
   ],
   controllers: [],
   providers: [],

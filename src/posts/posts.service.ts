@@ -28,8 +28,6 @@ export class PostsService {
       const { images = [], ...postDetails } = createPostDto;
       const newpost = this.postRepository.create({
         ...postDetails,
-        images: images.map(image => this.postImageRepository.create({ url: image })),
-        user
       });
       const post = await this.postRepository.save(newpost);
 

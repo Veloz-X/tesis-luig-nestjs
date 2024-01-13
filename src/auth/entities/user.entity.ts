@@ -1,5 +1,3 @@
-import { Comment } from "src/comments/entities/comment.entity";
-import { Post } from "src/posts/entities/post.entity";
 import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('users')
@@ -16,18 +14,6 @@ export class User {
     })
     password: string;
 
-    @Column('text', { default: '' })
-    country: string;
-
-    @Column('text', { default: '' })
-    uni: string;
-
-    @Column('text', { default: '' })
-    gender: string;
-
-    @Column('int', { default: 0 })
-    age: number;
-
     @Column('bool', { default: true })
     isActive: boolean;
 
@@ -41,28 +27,6 @@ export class User {
     @UpdateDateColumn({
     })
     updateDate: Date;
-    // TODO: REVISAR SI FUNCINA ESTO UpdateDateColumn
-
-    @OneToMany(
-        () => Post,
-        (Userpost) => Userpost.user,
-        // {
-        //     cascade: true,
-        //     eager: true
-        // }
-    )
-    post: Post;
-    
-    @OneToMany(
-        () => Comment,
-        (Usercomment) => Usercomment.user,
-        // {
-        //     cascade: true,
-        //     eager: true
-        // }
-    )
-    comments: Comment[];
-
 
     @BeforeInsert()
     checkEmailInsert() {
