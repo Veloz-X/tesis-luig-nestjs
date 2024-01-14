@@ -42,9 +42,9 @@ export class AuthService {
       select: { email: true, password: true, id:true , isActive:true, roles:true,updateDate:true,createDate:true }
     });
 
-    if (!user) throw new UnauthorizedException('Invalid credentials (email)');
+    if (!user) throw new UnauthorizedException('Credenciales no válidas (email)');
 
-    if (!bcrypt.compareSync(password, user.password)) throw new UnauthorizedException('Invalid credentials (password)');
+    if (!bcrypt.compareSync(password, user.password)) throw new UnauthorizedException('Credenciales no válidas (password)');
 
     delete user.password;
     
@@ -68,7 +68,7 @@ export class AuthService {
 
   private handleDBError(error: any): never {
     if (error.code === '23505') throw new BadRequestException(error.detail);
-    throw new InternalServerErrorException('Check server logs for more details');
+    throw new InternalServerErrorException('Consulte los registros del servidor para obtener más detalles.');
   }
 
 }
