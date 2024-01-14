@@ -4,6 +4,7 @@ import { UpdateSensorDto } from './dto/update-sensor.dto';
 import { InjectRepository } from '@nestjs/typeorm/dist/common/typeorm.decorators';
 import { Sensor } from './entities/sensor.entity';
 import { Repository } from 'typeorm';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 @Injectable()
 export class SensorsService {
@@ -27,8 +28,19 @@ export class SensorsService {
     }
   }
 
-  findAll() {
-    return `This action returns all sensors`;
+  async findAll(paginationDto: PaginationDto) {
+    const { limit = 10, offset = 0 } = paginationDto;
+
+    if (limit < 0 || offset < 0) {
+      throw new Error('Limit and offset must be non-negative values.');
+    }
+
+    const [sensors, total] = await this.sensorRepository.findAndCount({
+      skip: offset,
+      take: limit,
+    });
+
+    return sensors;
   }
 
   findOne(id: number) {

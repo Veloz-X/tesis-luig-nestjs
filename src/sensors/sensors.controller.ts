@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { SensorsService } from './sensors.service';
 import { CreateSensorDto } from './dto/create-sensor.dto';
 import { UpdateSensorDto } from './dto/update-sensor.dto';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 @Controller('sensors')
 export class SensorsController {
@@ -13,8 +14,8 @@ export class SensorsController {
   }
 
   @Get()
-  findAll() {
-    return this.sensorsService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.sensorsService.findAll(paginationDto);
   }
 
   @Get(':id')
