@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
 import { CreateNotificationDto } from './dto/create-notification.dto';
 import { UpdateNotificationDto } from './dto/update-notification.dto';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 @Controller('notifications')
 export class NotificationsController {
@@ -13,8 +14,8 @@ export class NotificationsController {
   }
 
   @Get()
-  findAll() {
-    return this.notificationsService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.notificationsService.findAll(paginationDto);
   }
 
   @Get(':id')
