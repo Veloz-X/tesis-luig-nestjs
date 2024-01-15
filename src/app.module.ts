@@ -2,10 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommonModule } from './common/common.module';
-import { FilesModule } from './files/files.module';
 import { AuthModule } from './auth/auth.module';
-import { PostsModule } from './posts/posts.module';
 import { SensorsModule } from './sensors/sensors.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 
 @Module({
@@ -27,10 +26,9 @@ import { SensorsModule } from './sensors/sensors.module';
       synchronize: true,
     }),
     CommonModule,
-    FilesModule,
     AuthModule,
-    PostsModule,
     SensorsModule,
+    NotificationsModule,
   ],
   controllers: [],
   providers: [],
