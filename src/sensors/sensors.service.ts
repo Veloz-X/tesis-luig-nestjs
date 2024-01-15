@@ -38,6 +38,9 @@ export class SensorsService {
     const [sensors, total] = await this.sensorRepository.findAndCount({
       skip: offset,
       take: limit,
+      order: {
+        createDate: 'DESC', // Change to 'ASC' if you want oldest to newest
+      },
     });
 
     return sensors;
