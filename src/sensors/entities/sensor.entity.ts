@@ -13,12 +13,12 @@ export class Sensor {
     @Column('text', {
         default: '00.00'
     })
-    temperature: string;
+    temperature: number;
 
     @Column('text', {
         default: '00.00'
     })
-    humidity: string;
+    humidity: number;
 
     @CreateDateColumn({
     })

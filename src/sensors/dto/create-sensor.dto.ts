@@ -3,11 +3,11 @@ import { IsBoolean, IsOptional, IsString, MinLength } from "class-validator";
 export class CreateSensorDto {
     @IsString()
     @MinLength(1)
-    humidity: string;
+    humidity: number;
     
     @IsString()
     @MinLength(1)
-    temperature: string;
+    temperature: number;
     
     @IsBoolean()    
     // @IsOptional()
