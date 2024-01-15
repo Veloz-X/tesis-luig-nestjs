@@ -1,9 +1,11 @@
 import { IsBoolean, IsOptional, IsString, MinLength } from "class-validator";
 
 export class CreateSensorDto {
-    humidity: number;
+    @IsOptional() 
+    humidity?: number;
     
-    temperature: number;
+    @IsOptional() 
+    temperature?: number;
     
     @IsBoolean()    
     sensorStatus: boolean;
