@@ -10,10 +10,10 @@ export class Sensor {
     @Column('bool', { default: true })
     sensorStatus: boolean;
 
-    @Column({ type: 'decimal', precision: 10, scale: 2, default: 0.00 }) // Set default value for number columns
+    @Column({ type: 'decimal', precision: 10, scale: 2, default: 0.00 })
     temperature: number;
 
-    @Column({ type: 'decimal', precision: 10, scale: 2, default: 0.00 }) // Set default value for number columns
+    @Column({ type: 'decimal', precision: 10, scale: 2, default: 0.00 })
     humidity: number;
 
     @CreateDateColumn({
