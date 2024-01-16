@@ -7,13 +7,15 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { TwoFactorToken } from './entities/two_factor_token.entity';
+import { TwoFactorConfirmation } from './entities/two_factor_confirmation.entity';
 
 @Module({
   controllers: [AuthController],
   providers: [AuthService,JwtStrategy],
   imports: [
     ConfigModule,
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User,TwoFactorToken,TwoFactorConfirmation]),
     PassportModule.register({defaultStrategy: 'jwt'}),
 
     JwtModule.registerAsync({

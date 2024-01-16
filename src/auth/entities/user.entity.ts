@@ -42,29 +42,3 @@ export class User {
     }
 
 }
-
-@Entity('two_factor_token')
-export class TwoFactorToken {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
-  token: string;
-
-  @OneToOne(() => User)
-  @JoinColumn()
-  user: User;
-}
-
-@Entity('two_factor_confirmation')
-export class TwoFactorConfirmation {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ default: false })
-  isConfirmed: boolean;
-
-  @OneToOne(() => User)
-  @JoinColumn()
-  user: User;
-}
