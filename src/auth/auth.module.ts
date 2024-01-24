@@ -8,7 +8,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { TwoFactorToken } from './entities/two_factor_token.entity';
-import { TwoFactorConfirmation } from './entities/two_factor_confirmation.entity';
 import { NotificationsModule } from 'src/notifications/notifications.module';
 
 @Module({
@@ -17,7 +16,7 @@ import { NotificationsModule } from 'src/notifications/notifications.module';
   imports: [
     NotificationsModule,
     ConfigModule,
-    TypeOrmModule.forFeature([User,TwoFactorToken,TwoFactorConfirmation]),
+    TypeOrmModule.forFeature([User,TwoFactorToken]),
     PassportModule.register({defaultStrategy: 'jwt'}),
 
     JwtModule.registerAsync({

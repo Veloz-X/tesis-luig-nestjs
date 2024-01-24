@@ -1,4 +1,5 @@
 import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { TwoFactorToken } from "./two_factor_token.entity";
 
 @Entity('users')
 export class User {
@@ -30,6 +31,10 @@ export class User {
     @UpdateDateColumn({
     })
     updateDate: Date;
+
+    @OneToOne(() => TwoFactorToken)
+    @JoinColumn()
+    two_factor_token: TwoFactorToken;
 
     @BeforeInsert()
     checkEmailInsert() {

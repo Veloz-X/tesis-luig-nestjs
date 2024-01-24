@@ -8,8 +8,4 @@ export class TwoFactorToken {
 
   @Column()
   token: string;
-
-  @OneToOne(() => User)
-  @JoinColumn()
-  user: User;
 }
