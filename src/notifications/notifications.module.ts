@@ -12,5 +12,6 @@ import { Notification } from './entities/notification.entity';
       Notification
     ])
   ],
+  exports:[NotificationsService]
 })
 export class NotificationsModule {}

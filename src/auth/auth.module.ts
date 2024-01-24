@@ -9,11 +9,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { TwoFactorToken } from './entities/two_factor_token.entity';
 import { TwoFactorConfirmation } from './entities/two_factor_confirmation.entity';
+import { NotificationsModule } from 'src/notifications/notifications.module';
 
 @Module({
   controllers: [AuthController],
   providers: [AuthService,JwtStrategy],
   imports: [
+    NotificationsModule,
     ConfigModule,
     TypeOrmModule.forFeature([User,TwoFactorToken,TwoFactorConfirmation]),
     PassportModule.register({defaultStrategy: 'jwt'}),

@@ -16,7 +16,7 @@ export class NotificationsService {
   ) { }
 
   
-  async create(createNotificationDto: CreateNotificationDto) {
+  async createNotification(createNotificationDto: CreateNotificationDto) {
     const notificationSendApi = false;
     const chat_id_telegram = '-4106481419';
     try {
