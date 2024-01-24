@@ -3,8 +3,8 @@ import { User } from "./user.entity";
 
 @Entity('two_factor_token')
 export class TwoFactorToken {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+    id: string;
 
   @Column()
   token: string;
@@ -16,4 +16,10 @@ export class TwoFactorToken {
   @UpdateDateColumn({
   })
    updateDate: Date;
+
+  @OneToOne(
+    () => User,
+    (user) => user.two_factor_token,
+  )
+  user: User;
 }

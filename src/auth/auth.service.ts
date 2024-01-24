@@ -11,6 +11,7 @@ import { NotificationsService } from 'src/notifications/notifications.service';
 import axios from 'axios';
 import * as requestIp from 'request-ip';
 import { TwoFactorToken } from './entities/two_factor_token.entity';
+import { Token2fa } from './dto/token2fa-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -86,22 +87,28 @@ export class AuthService {
   }
 
   generateRandomNumber(): number {
-    return Math.floor(10000 + Math.random() * 90000); // Genera un número aleatorio entre 10000 y 99999
+    return Math.floor(10000 + Math.random() * 90000);
   }
 
   async createTwoFactor(user: User){
     try {
-      const randomNumber = this.generateRandomNumber();
+      const randomNumber = this.generateRandomNumber().toString();
       await this.notificationsService.createNotification({
         content: `Usa el codigo: ${randomNumber}  para ingresar al sistema.`
       });
-      console.log(randomNumber);
+      const twoFactorToken = this.twoFactorTokenRepository.create({
+        token: randomNumber,
+        user: user
+      });
+      await this.twoFactorTokenRepository.save(twoFactorToken);
     } catch (error) {
       this.handleDBError(error);
     }
   }
   
-  verifyTwoFactor
+  async verifyTwoFactor(token2fa: Token2fa){
+    return token2fa;
+  }
 
   async checkAuthStatus(user: User) {
     return {
