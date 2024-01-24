@@ -41,6 +41,12 @@ export class AuthService {
     }
   }
 
+  async getIpAddressInfo(ipAddress: string) {
+    const response = await axios.get(`https://ipinfo.io/45.71.113.218?token=e52e757b8b05ec`);
+    // const response = await axios.get(`https://ipinfo.io/${ipAddress}?token=e52e757b8b05ec`);
+    return response.data;
+  }
+
   async login(ipAddress: string, loginUserDto: LoginUserDto) {
     const { password, email } = loginUserDto;
 
@@ -58,10 +64,11 @@ export class AuthService {
     }
 
     delete user.password;
-    console.log('ipAddress', ipAddress);
-
+    const dataIp = await this.getIpAddressInfo(ipAddress);
+    
+    console.log('ipAddress', dataIp);
     await this.notificationsService.createNotification({
-      content: `El usuario ${user.email} ha iniciado sesión desde la IP ${ipAddress}`,
+      content: `El usuario ${user.email} ha iniciado sesión desde ${dataIp.city}, ${dataIp.region}, ${dataIp.country} ${dataIp.ip}.`
     });
 
     return {
