@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { User } from "./user.entity";
 
 @Entity('two_factor_token')
@@ -8,4 +8,12 @@ export class TwoFactorToken {
 
   @Column()
   token: string;
+
+  @CreateDateColumn({
+  })
+  createDate: Date;
+
+  @UpdateDateColumn({
+  })
+   updateDate: Date;
 }
