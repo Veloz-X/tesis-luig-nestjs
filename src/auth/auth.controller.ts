@@ -11,7 +11,7 @@ import { UserRoleGuard } from './guards/user-role/user-role.guard';
 import { RoleProtected } from './decorators/role-protected.decorator';
 import { ValidRoles } from './interfaces/valid-roles';
 import { Auth } from './decorators/auth.decorator';
-import * as requestIp from 'request-ip';
+import { Request } from 'express';
 
 
 @Controller('auth')
@@ -24,7 +24,7 @@ export class AuthController {
   }
   @Post('login')
   async loginUser(@Req() req: Request, @Body() loginUserDto: LoginUserDto) {
-    const ipAddress = requestIp.getClientIp(req);
+    const ipAddress = req.ip;
     return this.authService.login(ipAddress, loginUserDto);
   }
 

@@ -68,7 +68,7 @@ export class AuthService {
     
     console.log('ipAddress', dataIp);
     await this.notificationsService.createNotification({
-      content: `El usuario ${user.email} ha iniciado sesión desde ${dataIp.city}, ${dataIp.region}, ${dataIp.country} ${dataIp.ip}.`
+      content: `El usuario ${user.email} ha iniciado sesión desde: ${dataIp.city}, ${dataIp.region}, ${dataIp.country} (${dataIp.ip}).`
     });
 
     return {
