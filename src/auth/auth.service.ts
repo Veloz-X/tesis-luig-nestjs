@@ -42,8 +42,8 @@ export class AuthService {
   }
 
   async getIpAddressInfo(ipAddress: string) {
-    const response = await axios.get(`https://ipinfo.io/45.71.113.218?token=e52e757b8b05ec`);
-    // const response = await axios.get(`https://ipinfo.io/${ipAddress}?token=e52e757b8b05ec`);
+    // const response = await axios.get(`https://ipinfo.io/45.71.113.218?token=e52e757b8b05ec`);
+    const response = await axios.get(`https://ipinfo.io/${ipAddress}?token=e52e757b8b05ec`);
     return response.data;
   }
 
