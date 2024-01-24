@@ -10,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { NotificationsService } from 'src/notifications/notifications.service';
 import axios from 'axios';
 import * as requestIp from 'request-ip';
+import { TwoFactorToken } from './entities/two_factor_token.entity';
 
 @Injectable()
 export class AuthService {
@@ -20,6 +21,11 @@ export class AuthService {
     
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+
+    @InjectRepository(TwoFactorToken)
+    private readonly twoFactorTokenRepository: Repository<TwoFactorToken>,
+
+
     private readonly jwtService: JwtService
   ) { }
 
@@ -42,7 +48,6 @@ export class AuthService {
   }
 
   async getIpAddressInfo(ipAddress: string) {
-    // const response = await axios.get(`https://ipinfo.io/45.71.113.218?token=e52e757b8b05ec`);
     const response = await axios.get(`https://ipinfo.io/${ipAddress}?token=e52e757b8b05ec`);
     return response.data;
   }
@@ -66,17 +71,37 @@ export class AuthService {
     delete user.password;
     const dataIp = await this.getIpAddressInfo(ipAddress);
     
-    console.log('ipAddress', dataIp);
     await this.notificationsService.createNotification({
       // content: `El usuario ${user.email} ha iniciado sesión desde: ${dataIp.city}, ${dataIp.region}, ${dataIp.country} (${dataIp.ip}).`
       content: `El usuario ${user.email} ha iniciado sesión.`
     });
+    if (user.isTwoFactorEnabled) {
+      this.createTwoFactor(user)
+    }
 
     return {
       ...user,
       token: this.getJwtToken({ id: user.id }),
     };
   }
+
+  generateRandomNumber(): number {
+    return Math.floor(10000 + Math.random() * 90000); // Genera un número aleatorio entre 10000 y 99999
+  }
+
+  async createTwoFactor(user: User){
+    try {
+      const randomNumber = this.generateRandomNumber();
+      await this.notificationsService.createNotification({
+        content: `Usa el codigo: ${randomNumber}  para ingresar al sistema.`
+      });
+      console.log(randomNumber);
+    } catch (error) {
+      this.handleDBError(error);
+    }
+  }
+  
+  verifyTwoFactor
 
   async checkAuthStatus(user: User) {
     return {
