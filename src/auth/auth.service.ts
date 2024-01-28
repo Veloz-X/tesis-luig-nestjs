@@ -11,7 +11,7 @@ import { NotificationsService } from 'src/notifications/notifications.service';
 import axios from 'axios';
 import * as requestIp from 'request-ip';
 import { TwoFactorToken } from './entities/two_factor_token.entity';
-import { Token2fa } from './dto/token2fa-user.dto';
+import { verifyEmail } from './dto/verify-email.dto';
 
 @Injectable()
 export class AuthService {
@@ -106,8 +106,17 @@ export class AuthService {
     }
   }
   
-  async verifyTwoFactor(token2fa: Token2fa){
-    return token2fa;
+  async verifyEmailUser(verifyEmail: verifyEmail){
+    try {
+      const user = await this.userRepository.findOne({
+          where: { email:verifyEmail.email }
+      });
+
+      return user;
+  } catch (error) {
+      console.error('Error al verificar el usuario por correo electrónico:', error.message);
+      throw error; // Puedes lanzar el error o devolver un valor predeterminado según tus necesidades
+  }
   }
 
   async checkAuthStatus(user: User) {

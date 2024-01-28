@@ -12,7 +12,7 @@ import { RoleProtected } from './decorators/role-protected.decorator';
 import { ValidRoles } from './interfaces/valid-roles';
 import { Auth } from './decorators/auth.decorator';
 import { Request } from 'express';
-import { Token2fa } from './dto/token2fa-user.dto';
+import { verifyEmail } from './dto/verify-email.dto';
 
 
 @Controller('auth')
@@ -28,9 +28,9 @@ export class AuthController {
     const ipAddress = req.ip;
     return this.authService.login(ipAddress, loginUserDto);
   }
-  @Post('verifyTwoFactor')
-  async verifyTwoFactor( @Body() token2fa: Token2fa) {
-    return this.authService.verifyTwoFactor(token2fa);
+  @Post('verifyEmail')
+  async verifyTwoFactor( @Body() verifyEmail: verifyEmail) {
+    return this.authService.verifyEmailUser(verifyEmail);
   }
 
   @Get('check-auth-status')
