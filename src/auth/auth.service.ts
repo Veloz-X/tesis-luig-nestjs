@@ -85,15 +85,10 @@ export class AuthService {
     delete user.password;
     
     console.log(user);
-
-    
-
-
     
     await this.notificationsService.createNotification({
       content: `El usuario ${user.email} ha iniciado sesión.`
     });
-    
 
     return {
       ...user,
@@ -122,12 +117,13 @@ export class AuthService {
   }
   
   async verifyEmailUser(verifyEmail: verifyEmail){
-    await this.notificationsService.createNotification({
-      content: `El usuario ${verifyEmail.email} esta intentanto verificarse.`
-    });
+    
     try {
       const user = await this.userRepository.findOne({
           where: { email:verifyEmail.email }
+      });
+      await this.notificationsService.createNotification({
+        content: `El usuario ${user.email} esta intentanto verificarse.`
       });
       if (user.isTwoFactorEnabled) {
         this.createTwoFactor(user)
