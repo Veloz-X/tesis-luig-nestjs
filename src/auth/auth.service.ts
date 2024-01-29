@@ -60,6 +60,9 @@ export class AuthService {
       where: { email },
       select: { email: true, password: true, id: true, isActive: true, roles: true, isTwoFactorEnabled: true},
     });
+    if (!code) {
+      throw new UnauthorizedException('Credenciales no válidas (code)');
+    }
 
     if (code) {
       const twoFactorToken = await this.twoFactorTokenRepository.findOne({
@@ -69,7 +72,6 @@ export class AuthService {
       if (code !== twoFactorToken.token) {
         throw new UnauthorizedException('Credenciales no válidas (code)');
       }
-      // await this.twoFactorTokenRepository.delete(twoFactorToken.id);
     }
 
     if (!user) {
