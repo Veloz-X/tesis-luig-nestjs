@@ -24,9 +24,8 @@ export class AuthController {
     return this.authService.create(createUserDto);
   }
   @Post('login')
-  async loginUser(@Req() req: Request, @Body() loginUserDto: LoginUserDto) {
-    const ipAddress = req.ip;
-    return this.authService.login(ipAddress, loginUserDto);
+  async loginUser(@Body() loginUserDto: LoginUserDto) {
+    return this.authService.login(loginUserDto);
   }
   @Post('verifyEmail')
   async verifyTwoFactor( @Body() verifyEmail: verifyEmail) {

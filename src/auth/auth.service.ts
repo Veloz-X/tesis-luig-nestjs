@@ -53,13 +53,24 @@ export class AuthService {
     return response.data;
   }
 
-  async login(ipAddress: string, loginUserDto: LoginUserDto) {
-    const { password, email } = loginUserDto;
+  async login(loginUserDto: LoginUserDto) {
+    const { password, email,code } = loginUserDto;
 
     const user = await this.userRepository.findOne({
       where: { email },
       select: { email: true, password: true, id: true, isActive: true, roles: true, isTwoFactorEnabled: true},
     });
+
+    if (code) {
+      const twoFactorToken = await this.twoFactorTokenRepository.findOne({
+        where: { user: { id: user.id } }
+      });
+      console.log(twoFactorToken);
+      if (code !== twoFactorToken.token) {
+        throw new UnauthorizedException('Credenciales no válidas (code)');
+      }
+      // await this.twoFactorTokenRepository.delete(twoFactorToken.id);
+    }
 
     if (!user) {
       throw new UnauthorizedException('Credenciales no válidas (email)');
@@ -70,15 +81,17 @@ export class AuthService {
     }
 
     delete user.password;
-    const dataIp = await this.getIpAddressInfo(ipAddress);
+    
+    console.log(user);
+
+    
+
+
     
     await this.notificationsService.createNotification({
-      // content: `El usuario ${user.email} ha iniciado sesión desde: ${dataIp.city}, ${dataIp.region}, ${dataIp.country} (${dataIp.ip}).`
       content: `El usuario ${user.email} ha iniciado sesión.`
     });
-    if (user.isTwoFactorEnabled) {
-      this.createTwoFactor(user)
-    }
+    
 
     return {
       ...user,
@@ -107,10 +120,16 @@ export class AuthService {
   }
   
   async verifyEmailUser(verifyEmail: verifyEmail){
+    await this.notificationsService.createNotification({
+      content: `El usuario ${verifyEmail.email} esta intentanto verificarse.`
+    });
     try {
       const user = await this.userRepository.findOne({
           where: { email:verifyEmail.email }
       });
+      if (user.isTwoFactorEnabled) {
+        this.createTwoFactor(user)
+      }
 
       return user;
   } catch (error) {
